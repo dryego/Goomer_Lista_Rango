@@ -1,9 +1,12 @@
-const sequelize = require("../../config/dbSequelize");
-const Restaurante = require("../../model/restaurante/restauranteModel");
+const {
+  buscarRestaurantes,
+} = require("../../repository/restauranteRepository");
 
 const listaResturantes = async () => {
   try {
-    const restaurantes = await Restaurante.findAll();
+    const restaurantes = await buscarRestaurantes();
+    console.log(restaurantes);
+
     if (restaurantes.length === 0) {
       throw new Error("Não à restaurantes cadastrados.");
     }

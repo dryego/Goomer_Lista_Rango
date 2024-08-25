@@ -6,5 +6,6 @@ const {
 const rotas = express.Router();
 // rotas restaurante
 rotas.get("/listaRestaurantes", restaurantes);
+rotas.get("/buscaRestaurante/{id}")
 
 module.exports = rotas;

@@ -14,6 +14,16 @@ const restaurantes = async (req, res) => {
   }
 };
 
+const buscarRestaurante = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+  } catch (error) {
+    return res.status(500).json({ mensagem: "Erro interno: " + error });
+  }
+};
+
 module.exports = {
   restaurantes,
+  buscarRestaurante,
 };
