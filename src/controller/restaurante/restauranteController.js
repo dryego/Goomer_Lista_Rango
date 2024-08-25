@@ -1,5 +1,6 @@
 const {
   listaResturantes,
+  buscarRestauranteID,
 } = require("../../service/restaurante/restauranteService");
 
 const restaurantes = async (req, res) => {
@@ -18,6 +19,11 @@ const buscarRestaurante = async (req, res) => {
   const { id } = req.params;
 
   try {
+    const restaurante = await buscarRestauranteID(id);
+    if (restaurante.sucesso === false) {
+      return res.status(404).json({ mensagem: restaurante.error });
+    }
+    return res.json(restaurante.data);
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno: " + error });
   }
