@@ -1,6 +1,8 @@
+const { criarEndereco } = require("../../repository/enderecoRepository");
 const {
   listaResturantes,
   buscarRestauranteID,
+  criarRestaurante,
 } = require("../../service/restaurante/restauranteService");
 
 const restaurantes = async (req, res) => {
@@ -29,7 +31,35 @@ const buscarRestaurante = async (req, res) => {
   }
 };
 
+const cadastraRestaurante = async (req, res) => {
+  const { foto, nome, logradouro, numero, bairro, estado, cep, referencia } =
+    req.body;
+  console.log(req.body);
+
+  try {
+    const novoRestaurante = await criarRestaurante(
+      foto,
+      nome,
+      logradouro,
+      numero,
+      bairro,
+      estado,
+      cep,
+      referencia
+    );
+
+    if (novoRestaurante.sucesso === false) {
+      return res.status(404).json({ mensagem: novoRestaurante.error });
+    }
+
+    return res.json(novoRestaurante.data);
+  } catch (error) {
+    return res.status(500).json({ mensagem: "Erro interno: " + error });
+  }
+};
+
 module.exports = {
   restaurantes,
   buscarRestaurante,
+  cadastraRestaurante,
 };

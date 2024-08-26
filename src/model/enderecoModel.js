@@ -28,9 +28,6 @@ const Endereco = sequelize.define("endereco", {
   cep: {
     type: DataTypes.STRING(9),
     allowNull: false,
-    validate: {
-      is: /^[0-9]{8}-[0-9]$/,
-    },
   },
   referencia: {
     type: DataTypes.STRING(100),

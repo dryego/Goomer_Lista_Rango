@@ -1,3 +1,5 @@
+const enderecoRepository = require("../../repository/enderecoRepository");
+const restauranteRepository = require("../../repository/restauranteRepository");
 const {
   buscarRestaurantes,
   buscarRestauranteId,
@@ -19,12 +21,58 @@ const listaResturantes = async () => {
 const buscarRestauranteID = async (id) => {
   try {
     const restaurante = await buscarRestauranteId(id);
+    const endereco = await enderecoRepository.buscarEnderecoIdRestaurante(id);
 
     if (restaurante === null) {
       throw new Error("Restaurante não encontrado.");
     }
 
-    return { sucesso: true, data: restaurante };
+    return { sucesso: true, data: { restaurante, endereco } };
+  } catch (error) {
+    return { sucesso: false, error: error.message };
+  }
+};
+
+const criarRestaurante = async (
+  foto,
+  nome,
+  logradouro,
+  numero,
+  bairro,
+  estado,
+  cep,
+  referencia
+) => {
+  try {
+    const novoRestaurante = {
+      foto,
+      nome,
+    };
+
+    const restaurante = await restauranteRepository.criarRestaurante(
+      novoRestaurante
+    );
+
+    if (!restaurante) {
+      throw new Error("Erro ao criar restaurante.");
+    }
+    const novoEndereco = {
+      restauranteID: restaurante.id,
+      logradouro,
+      numero,
+      bairro,
+      estado,
+      cep,
+      referencia,
+    };
+
+    const endereco = await enderecoRepository.criarEndereco(novoEndereco);
+
+    if (!endereco) {
+      throw new Error("Erro ao criar endereço.");
+    }
+
+    return { sucesso: true, data: { restaurante, endereco } };
   } catch (error) {
     return { sucesso: false, error: error.message };
   }
@@ -33,4 +81,5 @@ const buscarRestauranteID = async (id) => {
 module.exports = {
   listaResturantes,
   buscarRestauranteID,
+  criarRestaurante,
 };
