@@ -20,18 +20,4 @@ const Restaurante = sequelize.define("restaurante", {
   },
 });
 
-Restaurante.hasOne(Endereco, {
-  foreignKey: {
-    name: "restauranteID",
-    allowNull: false,
-  },
-});
-
-Restaurante.hasMany(Horario, {
-  foreignKey: {
-    name: "restauranteID",
-    allowNull: false,
-  },
-});
-
 module.exports = Restaurante;
