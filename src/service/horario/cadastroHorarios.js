@@ -10,6 +10,27 @@ const criarHorarios = async (restauranteID, horarios) => {
       throw new Error(`Restaurante não encontrado.`);
     }
 
+    if (horarios.length >= 8) {
+      throw new Error("Não é permitido cadastrar mais de 8 horários.");
+    }
+
+    console.log(horarios.length);
+
+    horarios.forEach((horario) => {
+      const abertura = new Date(`2024-01-01T${horario.horarioAbertura}:00Z`);
+      const fechamento = new Date(
+        `2024-01-01T${horario.horarioFechamento}:00Z`
+      );
+
+      const diffInMinutes = (fechamento - abertura) / 60000;
+
+      if (diffInMinutes < 15) {
+        throw new Error(
+          `O intervalo entre abertura e fechamento deve ser de no mínimo 15 minutos na ${horario.diaSemana}`
+        );
+      }
+    });
+
     const horariosCriados = await horarioRepository.criarHorarios(
       horarios.map((horario) => ({
         restauranteID,
@@ -20,7 +41,7 @@ const criarHorarios = async (restauranteID, horarios) => {
     );
 
     if (!horariosCriados) {
-      throw new Error("Problema ao criar horarios.");
+      throw new Error("Problema ao criar horários.");
     }
 
     return { sucesso: true, data: horariosCriados };

@@ -6,7 +6,9 @@ class HorarioRepository {
   }
 
   async buscarHorariosIdRestaurante(restauranteID) {
-    return await Horario.findByPk(restauranteID);
+    return await Horario.findOne({
+      where: restauranteID,
+    });
   }
 }
 

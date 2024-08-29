@@ -22,12 +22,13 @@ const buscarRestauranteID = async (id) => {
   try {
     const restaurante = await buscarRestauranteId(id);
     const endereco = await enderecoRepository.buscarEnderecoIdRestaurante(id);
+    const horarios = await restauranteRepository.buscaHorarios(id);
 
     if (restaurante === null) {
       throw new Error("Restaurante não encontrado.");
     }
 
-    return { sucesso: true, data: { restaurante, endereco } };
+    return { sucesso: true, data: { restaurante, endereco, horarios } };
   } catch (error) {
     return { sucesso: false, error: error.message };
   }

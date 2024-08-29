@@ -4,6 +4,7 @@ const {
   buscarRestauranteID,
   criarRestaurante,
 } = require("../../service/restaurante/restauranteService");
+const { buscarRestauranteComHorarios } = require("../../util/formatarHorario");
 
 const restaurantes = async (req, res) => {
   try {
@@ -34,7 +35,6 @@ const buscarRestaurante = async (req, res) => {
 const cadastraRestaurante = async (req, res) => {
   const { foto, nome, logradouro, numero, bairro, estado, cep, referencia } =
     req.body;
-  console.log(req.body);
 
   try {
     const novoRestaurante = await criarRestaurante(
@@ -58,8 +58,23 @@ const cadastraRestaurante = async (req, res) => {
   }
 };
 
+const buscaHorarioRestaurante = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const restaurante = await buscarRestauranteComHorarios(id);
+    if (restaurante.sucesso === false) {
+      return res.status(404).json({ mensagem: restaurante.error });
+    }
+
+    return res.json(restaurante);
+  } catch (error) {
+    return res.status(500).json({ mensagem: "Erro interno: " + error });
+  }
+};
+
 module.exports = {
   restaurantes,
   buscarRestaurante,
   cadastraRestaurante,
+  buscaHorarioRestaurante
 };

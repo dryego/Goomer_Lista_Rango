@@ -3,6 +3,9 @@ const {
   restaurantes,
   buscarRestaurante,
   cadastraRestaurante,
+  buscaRestauranteHorario,
+  buscaRestauranComteHorario,
+  buscaHorarioRestaurante,
 } = require("../controller/restaurante/restauranteController");
 const { cadastraHorarios } = require("../controller/horario/horarioController");
 
@@ -13,6 +16,7 @@ rotas.get("/buscaRestaurante/:id", buscarRestaurante);
 rotas.post("/cadastroRestaurante", cadastraRestaurante);
 
 //rotas horario
-rotas.post("cadastroHorarios/:restauranteID", cadastraHorarios);
+rotas.get("/horarios/:id",buscaHorarioRestaurante);
+rotas.post("/cadastroHorarios/:restauranteID", cadastraHorarios);
 
 module.exports = rotas;

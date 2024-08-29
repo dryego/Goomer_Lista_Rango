@@ -1,7 +1,5 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/dbSequelize");
-const Endereco = require("../enderecoModel");
-const Horario = require("../horarioModel");
 
 const Restaurante = sequelize.define("restaurante", {
   id: {
