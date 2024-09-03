@@ -3,6 +3,7 @@ const {
   listaResturantes,
   buscarRestauranteID,
   criarRestaurante,
+  deletarRestaurante,
 } = require("../../service/restaurante/restauranteService");
 const { buscarRestauranteComHorarios } = require("../../util/formatarHorario");
 
@@ -72,9 +73,24 @@ const buscaHorarioRestaurante = async (req, res) => {
   }
 };
 
+const deletaRestauranteID = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const restaurante = await deletarRestaurante(id);
+
+    if (restaurante.sucesso === false) {
+      return res.status(404).json({ mensagem: restaurante.error });
+    }
+    return res.json({ mensagen: restaurante.mensagem });
+  } catch (error) {
+    return res.status(500).json({ mensagem: "Erro interno: " + error });
+  }
+};
+
 module.exports = {
   restaurantes,
   buscarRestaurante,
   cadastraRestaurante,
-  buscaHorarioRestaurante
+  buscaHorarioRestaurante,
+  deletaRestauranteID,
 };

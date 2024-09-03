@@ -6,6 +6,7 @@ const criarHorarios = async (restauranteID, horarios) => {
     const restauranteExiste = await restauranteRepository.buscarRestauranteId(
       restauranteID
     );
+
     if (!restauranteExiste) {
       throw new Error(`Restaurante não encontrado.`);
     }
@@ -14,7 +15,14 @@ const criarHorarios = async (restauranteID, horarios) => {
       throw new Error("Não é permitido cadastrar mais de 8 horários.");
     }
 
-    console.log(horarios.length);
+    const horariosExistente = await restauranteRepository.buscaHorarios(
+      restauranteID
+    );
+    const limiteHorairos = horariosExistente.dataValues.horarios.length;
+
+    if (limiteHorairos === 7) {
+      throw new Error("Limite de horarios exedido.");
+    }
 
     horarios.forEach((horario) => {
       const abertura = new Date(`2024-01-01T${horario.horarioAbertura}:00Z`);

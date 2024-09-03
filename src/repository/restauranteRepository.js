@@ -1,3 +1,4 @@
+const Endereco = require("../model/enderecoModel");
 const Horario = require("../model/horarioModel");
 const Restaurante = require("../model/restaurante/restauranteModel");
 
@@ -7,7 +8,17 @@ class RestauranteRepository {
   }
 
   async buscarRestauranteId(id) {
-    return await Restaurante.findByPk(id);
+    return await Restaurante.findByPk(id, {
+      includes: [{ model: Endereco }, { model: Horario }],
+    });
+  }
+
+  async buscarRestauranteNome(nome) {
+    return await Restaurante.findAll({
+      where: {
+        nome,
+      },
+    });
   }
 
   async buscarRestaurantes() {
@@ -24,6 +35,12 @@ class RestauranteRepository {
           attributes: ["diaSemana", "horarioAbertura", "horarioFechamento"],
         },
       ],
+    });
+  }
+
+  async excluirRestaurante(IdRestaurante) {
+    return await Restaurante.destroy({
+      where: { id: IdRestaurante },
     });
   }
 }

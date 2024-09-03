@@ -3,9 +3,8 @@ const {
   restaurantes,
   buscarRestaurante,
   cadastraRestaurante,
-  buscaRestauranteHorario,
-  buscaRestauranComteHorario,
   buscaHorarioRestaurante,
+  deletaRestauranteID,
 } = require("../controller/restaurante/restauranteController");
 const { cadastraHorarios } = require("../controller/horario/horarioController");
 
@@ -14,9 +13,10 @@ const rotas = express.Router();
 rotas.get("/listaRestaurantes", restaurantes);
 rotas.get("/buscaRestaurante/:id", buscarRestaurante);
 rotas.post("/cadastroRestaurante", cadastraRestaurante);
+rotas.delete("/excluirRestaurante/:id", deletaRestauranteID);
 
 //rotas horario
-rotas.get("/horarios/:id",buscaHorarioRestaurante);
+rotas.get("/horarios/:id", buscaHorarioRestaurante);
 rotas.post("/cadastroHorarios/:restauranteID", cadastraHorarios);
 
 module.exports = rotas;
