@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const Endereco = require("../model/enderecoModel");
 const Horario = require("../model/horarioModel");
 const Restaurante = require("../model/restaurante/restauranteModel");
@@ -41,6 +42,12 @@ class RestauranteRepository {
   async excluirRestaurante(IdRestaurante) {
     return await Restaurante.destroy({
       where: { id: IdRestaurante },
+    });
+  }
+
+  async editarRestaurante(idRestaurante, dadosRestaurante) {
+    return await Restaurante.update(dadosRestaurante, {
+      where: { id: idRestaurante },
     });
   }
 }

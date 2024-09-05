@@ -87,7 +87,7 @@ const criarRestaurante = async (
 
 const deletarRestaurante = async (idRestaurante) => {
   try {
-    const resultado = await restauranteRepository.excluirRestaurante(
+    const resultado = await restauranteRepository.buscarRestauranteId(
       idRestaurante
     );
 
@@ -103,9 +103,54 @@ const deletarRestaurante = async (idRestaurante) => {
   }
 };
 
+const restauranteEditado = async (
+  id,
+  foto,
+  nome,
+  logradouro,
+  numero,
+  bairro,
+  estado,
+  cep,
+  referencia
+) => {
+  try {
+    const restaurante = await restauranteRepository.buscarRestauranteId(id);
+
+    if (!restaurante) {
+      throw new Error("Restaurante não encontrado.");
+    }
+
+    const restauranteExistente =
+      await restauranteRepository.buscarRestauranteNome(nome);
+
+    if (restauranteExistente.length > 0) {
+      throw new Error("Restaurante ja cadastrado com o mesmo nome.");
+    }
+
+    const restauranteEditado = {
+      foto,
+      nome,
+      logradouro,
+      numero,
+      bairro,
+      estado,
+      cep,
+      referencia,
+    };
+
+    await restauranteRepository.editarRestaurante(id, restauranteEditado);
+
+    return { sucesso: true, mensagem: "restaurante editado com sucesso." };
+  } catch (error) {
+    return { sucesso: false, error: error.message };
+  }
+};
+
 module.exports = {
   listaResturantes,
   buscarRestauranteID,
   criarRestaurante,
   deletarRestaurante,
+  restauranteEditado,
 };
