@@ -5,6 +5,7 @@ const {
   cadastraRestaurante,
   buscaHorarioRestaurante,
   deletaRestauranteID,
+  editarRestaurante,
 } = require("../controller/restaurante/restauranteController");
 const { cadastraHorarios } = require("../controller/horario/horarioController");
 const {
@@ -17,6 +18,7 @@ const rotas = express.Router();
 rotas.get("/listaRestaurantes", restaurantes);
 rotas.get("/buscaRestaurante/:id", buscarRestaurante);
 rotas.post("/cadastroRestaurante", cadastraRestaurante);
+rotas.put("/editarRestaurante/:id", editarRestaurante);
 rotas.delete("/excluirRestaurante/:id", deletaRestauranteID);
 
 //rotas horario
